@@ -1,7 +1,5 @@
 package com.feedback.config;
 
-import com.feedback.security.JwtAuthenticationFilter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -15,6 +13,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.feedback.security.JwtAuthenticationFilter;
+
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
@@ -32,26 +34,34 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // Public endpoints
+
+                        // ✅ Public endpoints
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/api-docs/**", "/swagger-ui.html").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
-                        // Student management - ADMIN only for write operations
+
+                        // ✅ Allow GET APIs without login (IMPORTANT FIX)
+                        .requestMatchers(HttpMethod.GET, "/api/feedback/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/students/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/teachers/**").permitAll()
+
+                        // 🔒 Admin-only operations
                         .requestMatchers(HttpMethod.POST, "/api/students/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/students/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/students/**").hasRole("ADMIN")
-                        // Feedback delete - ADMIN only
+
                         .requestMatchers(HttpMethod.DELETE, "/api/feedback/**").hasRole("ADMIN")
-                        // Teacher feedback - submit is STUDENT only (enforced via @PreAuthorize)
+
+                        // 🔒 Role-based restrictions
                         .requestMatchers(HttpMethod.POST, "/api/teacher-feedback/**").hasRole("STUDENT")
                         .requestMatchers(HttpMethod.DELETE, "/api/teacher-feedback/**").hasRole("ADMIN")
-                        // Teacher list endpoint - accessible to authenticated users
-                        .requestMatchers(HttpMethod.GET, "/api/teachers/**").authenticated()
-                        // All other API endpoints require authentication
+
+                        // 🔒 All other APIs require authentication
                         .requestMatchers("/api/**").authenticated()
+
                         .anyRequest().permitAll()
                 )
-                // Allow H2 console frames
+                // Allow H2 console
                 .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
