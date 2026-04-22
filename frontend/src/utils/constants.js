@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'http://localhost:8080/api';
+export const API_BASE_URL = 'https://feedback-hub-k68c.onrender.com';
 
 export const ROLES = {
   ADMIN: 'ADMIN',
