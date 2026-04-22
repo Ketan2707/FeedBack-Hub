@@ -2,10 +2,11 @@
 -- Password for all users is: password123 (BCrypt encoded)
 
 -- Users
+-- Password for all users is: password123
 INSERT INTO users (username, email, password_hash, role, created_at, updated_at) VALUES
-('admin', 'admin@school.edu', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'ADMIN', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-('teacher1', 'teacher1@school.edu', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'TEACHER', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-('teacher2', 'teacher2@school.edu', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'TEACHER', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+('admin', 'admin@school.edu', '$2a$10$2fcHa8w98qmQqL6yhwAV0OPgraluoOOPY1tLDbmB2PrRFU14DsIAi', 'ADMIN', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('teacher1', 'teacher1@school.edu', '$2a$10$2fcHa8w98qmQqL6yhwAV0OPgraluoOOPY1tLDbmB2PrRFU14DsIAi', 'TEACHER', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('teacher2', 'teacher2@school.edu', '$2a$10$2fcHa8w98qmQqL6yhwAV0OPgraluoOOPY1tLDbmB2PrRFU14DsIAi', 'TEACHER', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- Subjects
 INSERT INTO subjects (name, code, department, semester) VALUES
