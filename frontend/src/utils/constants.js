@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'https://feedback-hub-k68c.onrender.com';
+export const API_BASE_URL = 'https://feedback-hub-kji4.onrender.com';
 
 export const ROLES = {
   ADMIN: 'ADMIN',
